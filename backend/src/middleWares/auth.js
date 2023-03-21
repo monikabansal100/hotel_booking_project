@@ -30,7 +30,7 @@ const authorization= async function(req, res, next){
     try {
         let userId= req.params.userId
 
-        if(userId =! req.userId){
+        if(userId !== req.userId){
             res.status(403).send("you are not autherised")
         }
 

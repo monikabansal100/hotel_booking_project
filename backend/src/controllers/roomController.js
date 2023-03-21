@@ -9,12 +9,12 @@ const createRoom = async(req, res)=>{
         let SavedData= await roomModel.create(data)
         await hotelModel.findOneAndUpdate(hotelId, {$push: {rooms: SavedData._id}})
 
-        res.status(201).send({msg: "room created successfully", data: SavedData})
+        return res.status(201).send({msg: "room created successfully", data: SavedData})
     
     }
 
     catch(err){
-        res.status(500).send("internal server error")
+        return res.status(500).send("internal server error")
     }
 
 }
@@ -22,17 +22,18 @@ const createRoom = async(req, res)=>{
 
 const updateRoom = async(req, res)=>{
     try{
-        let roomId= req.params.id
+        let hotelId= req.params.hotelId
+        let roomId= req.params.roomId
         let data= req.body
 
-        let SavedData= await roomModel.findOneAndUpdate(roomId, data)
+        let SavedData= await roomModel.findOneAndUpdate(hotelId, roomId, data)
        
-        res.status(200).send({msg: "room updated successfully", data: SavedData})
+        return res.status(200).send({msg: "room updated successfully", data: SavedData})
     
     }
 
     catch(err){
-        res.status(500).send("internal server error")
+        return res.status(500).send("internal server error")
     }
 
 }
@@ -40,16 +41,18 @@ const updateRoom = async(req, res)=>{
 
 const getRoom = async(req, res)=>{
     try{
+        let hotelId= req.params.hotelId
+        let roomId= req.params.roomId
         let data= req.body
 
         let SavedData= await roomModel.find(data)
        
-        res.status(200).send({ data: SavedData})
+        return res.status(200).send({ data: SavedData})
     
     }
 
     catch(err){
-        res.status(500).send("internal server error")
+        return res.status(500).send("internal server error")
     }
 
 }
@@ -62,12 +65,12 @@ const deleteRoom = async(req, res)=>{
 
         await roomModel.findOneAndUpdate(roomId , {$set:{isDeleted: true}})
        
-        res.status(200).send({msg: "room deleted successfully"})
+        return res.status(200).send({msg: "room deleted successfully"})
     
     }
 
     catch(err){
-        res.status(500).send("internal server error")
+        return res.status(500).send("internal server error")
     }
 
 }
